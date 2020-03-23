@@ -54,6 +54,16 @@ class Users {
         return null;
     }
 
+    public static function getByEmail($email){
+        foreach(self::$users as $user){
+            if($user["mail"] == $email){
+                $user["is_cotisant"] = self::isCotisant($user["login"]);
+                return $user;
+            }
+        }
+        return null;
+    }
+
     public static function getByBadge($badge){
         foreach(self::$users as $user){
             if($user["badge_uid"] == $badge){

@@ -44,6 +44,9 @@ if($actions[1] == "find"){
 if($actions[1] == "badge" && !empty($actions[2])){
     $user = Users::getByBadge($actions[2]);
     echo $user ? json_encode($user) : null;
+} else if($actions[1] == "mail" && !empty($actions[2])){
+    $user = Users::getByEmail($actions[2]);
+    echo $user ? json_encode($user) : null;
 } else if(!empty($actions[1])){
     if($actions[2] == "cotisations"){
       $cotisations = Cotisations::getByUser($actions[1]);
