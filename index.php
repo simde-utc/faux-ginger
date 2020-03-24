@@ -37,20 +37,27 @@ if(empty($actions[1])){
     die("Pas d'action");
 }
 
-if($actions[1] == "find" || $actions[1] == "cotisations" || (!empty($actions[1]) && !empty($actions[2]) && $actions[2] == "cotisations")){
+if($actions[1] == "find"){
     die("Action non implémentée");
 }
 
 if($actions[1] == "badge" && !empty($actions[2])){
     $user = Users::getByBadge($actions[2]);
-}
-else if(!empty($actions[1])){
-    $user = Users::getByLogin($actions[1]);
+    echo $user ? json_encode($user) : null;
+} else if($actions[1] == "mail" && !empty($actions[2])){
+    $user = Users::getByEmail($actions[2]);
+    echo $user ? json_encode($user) : null;
+} else if(!empty($actions[1])){
+    if($actions[2] == "cotisations"){
+      $cotisations = Cotisations::getByUser($actions[1]);
+      echo $cotisations ? json_encode($cotisations) : null;
+    }
+    else if(empty($actions[2])){
+      $user = Users::getByLogin($actions[1]);
+      echo $user ? json_encode($user) : null;
+    }
 }
 
-if($user != null){
-    echo json_encode($user);        
-}
-else {
+if(!$user && !$cotisations){
     header("HTTP/1.0 404 Not Found");
 }
