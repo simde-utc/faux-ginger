@@ -48,7 +48,7 @@ if($actions[1] == "badge" && !empty($actions[2])){
     $user = Users::getByEmail($actions[2]);
     echo $user ? json_encode($user) : null;
 } else if(!empty($actions[1])){
-    if($actions[2] == "cotisations"){
+    if(!empty($actions[2]) && $actions[2] == "cotisations"){
       $cotisations = Cotisations::getByUser($actions[1]);
       echo $cotisations ? json_encode($cotisations) : null;
     }
@@ -58,6 +58,6 @@ if($actions[1] == "badge" && !empty($actions[2])){
     }
 }
 
-if(!$user && !$cotisations){
+if(!isset($user) && !isset($cotisations)){
     header("HTTP/1.0 404 Not Found");
 }
